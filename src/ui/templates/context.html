@@ -1,0 +1,51 @@
+<!-- 全球情資與目標動態面板 -->
+  <aside id="global-context-panel" class="global-context-panel collapsed" aria-label="目標情報詳情" hidden>
+    <div class="context-panel-glow" aria-hidden="true"></div>
+    <div class="context-panel-inner">
+      <header class="context-panel-header">
+        <div class="context-tabs" role="tablist" aria-label="情資檢視模式">
+          <button id="context-tab-contacts" class="context-tab active" role="tab" aria-selected="true" aria-controls="context-contacts-view" data-context-tab="contacts">
+            <span class="material-symbols-outlined" aria-hidden="true">radar</span>
+            <span>動態目標</span>
+          </button>
+          <button id="context-tab-space" class="context-tab" role="tab" aria-selected="false" aria-controls="context-space-view" data-context-tab="space-missions">
+            <span class="material-symbols-outlined" aria-hidden="true">rocket_launch</span>
+            <span>太空任務</span>
+          </button>
+        </div>
+        <button id="context-panel-close" class="context-close-btn" type="button" title="關閉詳情面板" aria-label="關閉詳情面板">
+          <span class="material-symbols-outlined" aria-hidden="true">close</span>
+        </button>
+      </header>
+
+      <!-- 動態目標視圖（航班、船隻） -->
+      <section id="context-contacts-view" class="context-tab-content active" role="tabpanel" aria-labelledby="context-tab-contacts">
+        <div class="context-filter-row">
+          <div class="context-search-wrap">
+            <input type="text" id="contacts-search" placeholder="搜尋呼號、航班編號、IMO 或座標..." autocomplete="off" spellcheck="false" aria-label="搜尋目標" />
+          </div>
+          <div class="context-category-pills" role="radiogroup" aria-label="目標篩選">
+            <button class="context-pill active" data-filter="all" role="radio" aria-checked="true">全部</button>
+            <button class="context-pill" data-filter="air" role="radio" aria-checked="false">航空</button>
+            <button class="context-pill" data-filter="maritime" role="radio" aria-checked="false">海事</button>
+            <button class="context-pill" data-filter="cctv" role="radio" aria-checked="false">監視鏡頭</button>
+          </div>
+        </div>
+        <div id="contacts-list" class="contacts-list" role="feed" aria-label="目標即時清單"></div>
+        <div class="context-empty-hint" id="contacts-empty" hidden>周邊範圍內未偵測到動態目標</div>
+      </section>
+
+      <!-- 太空任務視圖 -->
+      <section id="context-space-view" class="context-tab-content" role="tabpanel" aria-labelledby="context-tab-space" hidden>
+        <div class="context-filter-row">
+          <div class="context-category-pills" role="radiogroup" aria-label="太空目標篩選">
+            <button class="context-pill active" data-filter="all" role="radio" aria-checked="true">全部</button>
+            <button class="context-pill" data-filter="launches" role="radio" aria-checked="false">發射任務</button>
+            <button class="context-pill" data-filter="stations" role="radio" aria-checked="false">太空站/ISS</button>
+            <button class="context-pill" data-filter="satellites" role="radio" aria-checked="false">衛星星座</button>
+          </div>
+        </div>
+        <div id="space-missions-list" class="space-missions-list" role="feed" aria-label="太空任務清單"></div>
+      </section>
+    </div>
+  </aside>

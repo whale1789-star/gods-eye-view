@@ -1,0 +1,97 @@
+<!-- 底部整合指令塢：包含地點導航、語音控制（由 runtime 動態注入）與視覺預設濾鏡 -->
+  <div id="command-dock" aria-label="導航、語音與視覺預設濾鏡控制項">
+  <!-- 視覺濾鏡控制面板 -->
+  <div id="control-panel" class="panel-collapsible collapsed">
+    <div class="panel-glow"></div>
+    <div class="panel-inner">
+      <button id="control-panel-toggle" class="panel-header dock-tray-toggle" type="button"
+        data-dock-toggle-target="control-panel" aria-expanded="false"
+        aria-controls="control-panel-popover" aria-label="展開視覺風格預設集">
+        <span class="panel-title"><span class="dock-label-icon dock-label-icon-presets" aria-hidden="true"></span>視覺風格</span>
+        <span class="panel-divider"></span>
+      </button>
+      <div id="control-panel-popover" class="dock-popover-content">
+      <button class="dock-pin-btn" data-pin-target="control-panel" type="button" aria-label="固定視覺風格面板" aria-pressed="false" title="保持視覺風格面板開啟"><img src="/pin.svg" alt="" /></button>
+      <div id="style-buttons" class="button-grid">
+        <button class="style-btn active" data-style="normal" title="顯示未套用濾鏡的真實地球影像。">
+          <span class="btn-icon">◯</span>
+          <span class="btn-label">標準</span>
+          <span class="btn-key">1</span>
+        </button>
+        <button class="style-btn" data-style="retro" title="模擬帶有掃描線與螢幕曲率的綠色磷光 CRT 監視器。">
+          <span class="btn-icon">▦</span>
+          <span class="btn-label">戰術監視器</span>
+          <span class="btn-key">2</span>
+        </button>
+        <button class="style-btn" data-style="surveillance" title="模擬夜視鏡效果（NVG），具備微光綠色增強與鏡筒暗角。">
+          <span class="btn-icon">🌙</span>
+          <span class="btn-label">夜視鏡</span>
+          <span class="btn-key">3</span>
+        </button>
+        <button class="style-btn" data-style="thermal" title="模擬前視紅外線（FLIR）熱成像對比度。可調高 Ironbow 呈現彩色熱區。">
+          <span class="btn-icon">🌡️</span>
+          <span class="btn-label">熱成像</span>
+          <span class="btn-key">4</span>
+        </button>
+        <button class="style-btn" data-style="anime" title="套用明亮賽璐珞風格著色與插畫線條輪廓。">
+          <span class="btn-icon">✦</span>
+          <span class="btn-label">動漫賽璐珞</span>
+          <span class="btn-key">5</span>
+        </button>
+        <button class="style-btn" data-style="noir" title="套用高對比單色黑色電影風格（Film-Noir）調色。">
+          <span class="btn-icon">◐</span>
+          <span class="btn-label">黑色電影</span>
+          <span class="btn-key">6</span>
+        </button>
+        <button class="style-btn" data-style="snow" title="為當前場景增添極地寒冬暴風雪白化效果。">
+          <span class="btn-icon">❄</span>
+          <span class="btn-label">雪地暴風</span>
+          <span class="btn-key">7</span>
+        </button>
+      </div>
+      <section class="map-source-section" aria-labelledby="map-source-label">
+        <div class="map-source-heading">
+          <span id="map-source-label">圖資來源</span>
+          <span id="map-stack-status" class="pp-stack-status" aria-live="polite">3D</span>
+        </div>
+        <div id="map-stack-chips" class="map-stack-chip-row" role="group" aria-label="圖資來源"></div>
+      </section>
+      </div>
+      <div id="style-mini-status" class="panel-mini-status" aria-live="polite">
+        <span class="panel-mini-label">風格</span>
+        <span id="style-mini-value" class="panel-mini-value">標準</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 地點導航列 -->
+  <div id="location-bar" class="panel-collapsible collapsed">
+    <div class="panel-glow"></div>
+    <div class="location-inner">
+      <div class="location-toolbar">
+        <button id="location-bar-toggle" class="dock-tray-toggle" type="button" data-dock-toggle-target="location-bar" aria-controls="location-bar-popover" aria-expanded="false" aria-label="展開地點導航" title="展開地點導航">
+          <span class="location-toolbar-label"><span class="dock-label-icon dock-label-icon-location" aria-hidden="true"></span>目標地點</span>
+        </button>
+        <button class="panel-collapse-btn" data-collapse-target="location-bar" title="收合面板">+</button>
+      </div>
+      <div id="location-mini-status" class="location-mini-status" aria-live="polite">
+        <div id="location-mini-city" class="location-mini-city">📍 當前位置: --</div>
+        <div id="location-mini-poi" class="location-mini-poi">鄰近地標: --</div>
+      </div>
+      <div id="location-bar-popover" class="dock-popover-content">
+        <button class="dock-pin-btn" data-pin-target="location-bar" type="button" aria-label="固定地點面板" aria-pressed="false" title="保持地點面板開啟"><img src="/pin.svg" alt="" /></button>
+        <div id="poi-row" class="poi-row-container"></div>
+        <div class="location-bar-divider" id="location-bar-divider"></div>
+        <div class="location-city-row">
+          <div id="location-pills" class="location-pills"></div>
+          <div class="location-search-wrap">
+            <button id="search-toggle" class="search-toggle-btn" title="搜尋任何地點">
+              <span>&#x1F50E;</span>
+            </button>
+            <input type="text" id="location-search" placeholder="搜尋城市、機場、地標或經緯度坐標..." autocomplete="off" spellcheck="false" aria-label="輸入名稱或坐標搜尋地點" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>

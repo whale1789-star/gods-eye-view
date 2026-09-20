@@ -1,0 +1,140 @@
+<!-- 後處理顯示控制面板（右上角） -->
+  <div id="pp-toggles" class="panel-collapsible collapsed" data-panel-id="pp-toggles">
+    <div class="compact pp-header-row">
+      <span class="pp-header-label">顯示設定</span>
+      <span class="panel-divider" aria-hidden="true"></span>
+      <button class="panel-collapse-btn pp-collapse-btn" data-collapse-target="pp-toggles" title="收合面板">&#x25C0;</button>
+    </div>
+    <div class="pp-toggle-group">
+      <button class="pp-toggle-btn" id="hud-toggle" title="情報抬頭顯示器 (快捷鍵: H)">
+        <span class="pp-icon">&#x25CE;</span>
+        <span class="pp-label">HUD</span>
+      </button>
+      <div class="pp-slider-row" id="hud-layout-row">
+        <span class="pp-slider-mini-label">版面</span>
+        <select id="hud-layout-select" class="pp-select" aria-label="HUD 版面樣式">
+          <option value="tactical">戰術風格</option>
+          <option value="operator">操作員風格</option>
+          <option value="minimal">極簡風格</option>
+        </select>
+      </div>
+    </div>
+    <div class="pp-toggle-group">
+      <button class="pp-toggle-btn" id="detection-toggle" title="目標偵測標籤層 (快捷鍵: D)" aria-label="目標偵測標籤層" aria-pressed="false">
+        <span class="pp-icon">&#x25A3;</span>
+        <span class="pp-label">偵測</span>
+      </button>
+      <div class="pp-slider-row detection-slider-row" id="detection-slider-row">
+        <label class="pp-slider-mini-label" for="detection-density-slider">密度</label>
+        <input type="range" class="pp-slider" id="detection-density-slider" min="0" max="100" step="25" value="50" aria-label="偵測標籤密度" />
+        <span class="pp-slider-value" id="detection-density-value">50%</span>
+      </div>
+      <div class="pp-slider-row detection-allocation-row" id="detection-allocation-row">
+        <span class="pp-slider-mini-label">配置</span>
+        <div class="pp-mode-seg detection-allocation-seg" role="radiogroup" aria-label="偵測標籤配置模式">
+          <button class="pp-mode-btn active" id="detection-allocation-elastic" data-allocation="ELASTIC" role="radio" aria-checked="true">彈性</button>
+          <button class="pp-mode-btn" id="detection-allocation-weighted" data-allocation="WEIGHTED" role="radio" aria-checked="false">加權</button>
+        </div>
+      </div>
+      <div class="pp-slider-row detection-fade-row" id="detection-fade-row">
+        <label class="pp-slider-mini-label" for="detection-fade-slider">漸變</label>
+        <input type="range" class="pp-slider" id="detection-fade-slider" min="0" max="40" step="1" value="7" aria-label="偵測漸變距離" title="視窗環外的標籤淡出漸變半徑百分比" />
+        <span class="pp-slider-value" id="detection-fade-value">7%</span>
+      </div>
+      <div class="pp-slider-row detection-opacity-row" id="detection-opacity-row">
+        <label class="pp-slider-mini-label" for="detection-opacity-slider">外部透明</label>
+        <input type="range" class="pp-slider" id="detection-opacity-slider" min="0" max="100" step="1" value="1" aria-label="視窗環外部標籤不透明度" title="超出漸變距離外的標籤與卡片不透明度" />
+        <span class="pp-slider-value" id="detection-opacity-value">1%</span>
+      </div>
+    </div>
+    <!-- 預設著色器參數滑桿面板（於執行階段動態掛載） -->
+    <div id="param-slider-panel">
+      <div class="param-panel-header">
+        <span class="param-panel-title">參數微調</span>
+        <span class="param-panel-divider"></span>
+        <button class="panel-collapse-btn" id="param-panel-collapse-btn" data-collapse-target="param-slider-panel" title="收合面板">−</button>
+      </div>
+      <div id="param-sliders"></div>
+    </div>
+    <div class="pp-toggle-group">
+      <button class="pp-toggle-btn active" id="models3d-toggle" aria-pressed="true" title="3D 航機模型 — 遠距縮小顯示扁平圖示，近距離呈現 3D 模型">
+        <span class="pp-icon">&#x2708;</span>
+        <span class="pp-label">3D</span>
+      </button>
+      <div class="pp-slider-row visible" id="models3d-mode-row">
+        <span class="pp-slider-mini-label">模型</span>
+        <div class="pp-mode-seg" role="radiogroup" aria-label="3D 模型載入範圍">
+          <button class="pp-mode-btn active" id="models3d-mode-proximity" data-mode="proximity" role="radio" aria-checked="true">鄰近目標</button>
+          <button class="pp-mode-btn" id="models3d-mode-all" data-mode="all" role="radio" aria-checked="false">全部目標</button>
+        </div>
+      </div>
+    </div>
+    <div class="pp-toggle-group">
+      <button class="pp-toggle-btn active" id="scope-toggle" title="瞄準環 — 圓形視野遮罩光圈" aria-pressed="true">
+        <span class="pp-icon material-symbols-outlined" aria-hidden="true">adjust</span>
+        <span class="pp-label">光圈遮罩</span>
+      </button>
+      <div class="pp-slider-row visible" id="scope-slider-row">
+        <span class="pp-slider-mini-label">羽化</span>
+        <input type="range" class="pp-slider" id="scope-feather-slider" min="0" max="100" value="11" aria-label="光圈遮罩邊緣羽化程度" title="光圈遮罩邊緣的柔化半徑百分比" />
+        <span class="pp-slider-value" id="scope-feather-value">11%</span>
+      </div>
+    </div>
+    <div class="pp-toggle-group">
+      <button class="pp-toggle-btn" id="draw-toggle" title="在地圖上繪製標記 — 點擊增加頂點，按 Enter 或連點兩下結束繪製，按 Esc 取消" aria-pressed="false">
+        <span class="pp-icon material-symbols-outlined" aria-hidden="true">draw</span>
+        <span class="pp-label">標記繪製</span>
+      </button>
+      <div class="pp-slider-row" id="draw-mode-row">
+        <span class="pp-slider-mini-label">形狀</span>
+        <div class="pp-mode-seg" role="radiogroup" aria-label="繪製形狀類別">
+          <button class="pp-mode-btn active" data-shape="area" role="radio" aria-checked="true">多邊形</button>
+          <button class="pp-mode-btn" data-shape="line" role="radio" aria-checked="false">線段</button>
+          <button class="pp-mode-btn" data-shape="pin" role="radio" aria-checked="false">圖釘</button>
+        </div>
+      </div>
+      <div class="pp-slider-row" id="draw-label-row">
+        <input type="text" class="pp-text-input" id="draw-label-input" maxlength="120" placeholder="標記名稱 (選填)" aria-label="標記幾何圖形名稱" autocomplete="off" spellcheck="false">
+        <select class="pp-select draw-color-select" id="draw-color-select" aria-label="標記線條色彩">
+          <option value="primary">主色調</option>
+          <option value="amber">琥珀色</option>
+          <option value="cyan">青藍色</option>
+          <option value="green">綠色</option>
+          <option value="red">紅色</option>
+        </select>
+        <button class="pp-mode-btn draw-clear-btn" id="draw-clear" type="button" title="清除地圖上所有手繪標記">清除</button>
+        <span class="draw-hint" id="draw-hint" aria-live="polite"></span>
+      </div>
+    </div>
+    <div class="pp-toggle-group">
+      <button class="pp-toggle-btn" id="celestial-toggle" title="天體環 — 展開顯示全景地球" aria-pressed="false">
+        <span class="pp-icon material-symbols-outlined" aria-hidden="true">flare</span>
+        <span class="pp-label">天體環</span>
+      </button>
+    </div>
+    <button class="pp-toggle-btn" id="clean-view-toggle" title="隱藏所有介面面板 (純淨檢視模式)">
+      <span class="pp-icon">&#x25A1;</span>
+      <span class="pp-label">純淨視圖</span>
+    </button>
+    <div class="pp-toggle-group">
+      <button class="pp-toggle-btn" id="bloom-toggle" title="泛光 / 螢幕光暈效果">
+        <span class="pp-icon">&#x2728;</span>
+        <span class="pp-label">泛光</span>
+      </button>
+      <div class="pp-slider-row" id="bloom-slider-row">
+        <input type="range" class="pp-slider" id="bloom-intensity-slider" min="0" max="200" value="0" aria-label="泛光強度" />
+        <span class="pp-slider-value" id="bloom-intensity-value">0%</span>
+      </div>
+    </div>
+    <div class="pp-toggle-group">
+      <button class="pp-toggle-btn" id="sharpen-toggle" title="畫面銳利化">
+        <span class="pp-icon">&#x1F50D;</span>
+        <span class="pp-label">銳利化</span>
+      </button>
+      <div class="pp-slider-row" id="sharpen-slider-row">
+        <input type="range" class="pp-slider" id="sharpen-intensity-slider" min="0" max="100" value="49" aria-label="銳利化強度" />
+        <span class="pp-slider-value" id="sharpen-intensity-value">49%</span>
+      </div>
+    </div>
+  </div>
+  <button id="clean-view-exit" title="返回正常操作介面">退出純淨模式</button>
